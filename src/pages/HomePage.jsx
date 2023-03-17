@@ -11,7 +11,7 @@ export default function HomePage() {
                 mode: "cors"
             });
             const data = await response.json();
-            console.log(response);
+            console.log(data);
             //setPersons(data);
         }
 
