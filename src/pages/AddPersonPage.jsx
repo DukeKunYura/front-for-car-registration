@@ -12,7 +12,6 @@ export default function AddPersonPage() {
                 }
             })
             console.log(response);
-            //setPersons(data);
         }
 
         addData()

@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react'
+import { useGetPersonsQuery } from '../redux/personApi';
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
 
-    const [persons, setPersons] = useState()
+    const { data = [], isLoading } = useGetPersonsQuery();
 
-    useEffect(() => {
-        async function loadData() {
-            const response = await fetch("http://localhost:8080/persons", {
-                mode: "cors"
-            });
-            const data = await response.json();
-            console.log(data);
-            //setPersons(data);
-        }
+    //const [persons, setPersons] = useState()
 
-        loadData()
-    }, [])
+    // useEffect(() => {
+    //     async function loadData() {
+    //         const response = await fetch("http://localhost:8080/persons", {
+    //             mode: "cors"
+    //         });
+    //         const data = await response.json();
+    //         console.log(data);
+    //         //setPersons(data);
+    //     }
+
+    //     loadData()
+    // }, [])
 
 
     return (
@@ -33,7 +36,8 @@ export default function HomePage() {
                 </ul>
             </nav>
             <div>
-                {/* {persons.map((person) => (<div>person.surname</div>))} */}
+                {isLoading && <div>load</div>}
+                {data && data.map(person => (<div key={person.id}>{person.surname}</div>))}
 
             </div>
         </div>
