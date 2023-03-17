@@ -1,25 +1,27 @@
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import React, { useEffect } from 'react'
+import { useAddPersonMutation } from '../redux/personApi';
+
 
 export default function AddPersonPage() {
-    useEffect(() => {
-        async function addData() {
-            const response = fetch("http://localhost:8080/person", {
-                method: 'post',
-                body: JSON.stringify({ name: 'ooo', surname: '12345' }),
-                headers: {
-                    'content-type': 'application/json'
-                }
-            })
-            console.log(response);
-        }
 
-        addData()
-    }, [])
+    const [newPerson, setNewPerson] = useState('');
+
+    const [addPerson, { isError }] = useAddPersonMutation();
+
+    const handleAddPerson = async () => {
+        if (newPerson) {
+            await addPerson({ firstName: newPerson }).unwrap();
+            setNewPerson('');
+
+        }
+    }
 
     return (
         <>
             <div>AddPersonPage</div>
+            <input type="text" value={newPerson} onChange={(e) => setNewPerson(e.target.value)}></input>
+            <button onClick={handleAddPerson}></button>
             <Link to="/">Home</Link>
         </>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react';
 import { useGetPersonsQuery } from '../redux/personApi';
 import { Link } from "react-router-dom";
 
@@ -37,7 +37,7 @@ export default function HomePage() {
             </nav>
             <div>
                 {isLoading && <div>load</div>}
-                {data && data.map(person => (<div key={person.id}>{person.surname}</div>))}
+                {data && data.map(person => (<div key={person.id}>{person.firstName}</div>))}
 
             </div>
         </div>

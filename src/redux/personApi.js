@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const personApi = createApi({
     reducerPath: 'personApi',
@@ -6,8 +6,15 @@ export const personApi = createApi({
     endpoints: (build) => ({
         getPersons: build.query({
             query: () => 'persons'
+        }),
+        addPerson: build.mutation({
+            query: (body) => ({
+                url: 'person',
+                method: 'POST',
+                body,
+            })
         })
     })
 })
 
-export const { useGetPersonsQuery } = personApi;
+export const { useGetPersonsQuery, useAddPersonMutation } = personApi;
