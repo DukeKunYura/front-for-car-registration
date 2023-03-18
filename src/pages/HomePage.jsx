@@ -1,26 +1,15 @@
 import React from 'react';
-import { useGetPersonsQuery } from '../redux/personApi';
+import { useGetPersonsQuery, useDeletePersonMutation } from '../redux/personApi';
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
 
     const { data = [], isLoading } = useGetPersonsQuery();
+    const [deletePerson] = useDeletePersonMutation();
 
-    //const [persons, setPersons] = useState()
-
-    // useEffect(() => {
-    //     async function loadData() {
-    //         const response = await fetch("http://localhost:8080/persons", {
-    //             mode: "cors"
-    //         });
-    //         const data = await response.json();
-    //         console.log(data);
-    //         //setPersons(data);
-    //     }
-
-    //     loadData()
-    // }, [])
-
+    const handleDeletePerson = async (number) => {
+        await deletePerson(number).unwrap();
+    }
 
     return (
         <div>
@@ -37,7 +26,11 @@ export default function HomePage() {
             </nav>
             <div>
                 {isLoading && <div>load</div>}
-                {data && data.map(person => (<div key={person.id}>{person.firstName}</div>))}
+                {data && data.map(person => (
+                    <div key={person.id}>{person.firstName}
+                        <div onClick={(e) => { handleDeletePerson(person.passportNumber) }}>delete</div>
+                    </div>
+                ))}
 
             </div>
         </div>
