@@ -1,11 +1,14 @@
 import React from 'react';
 import { useGetPersonsQuery, useDeletePersonMutation } from '../redux/personApi';
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export default function HomePage() {
 
     const { data = [], isLoading } = useGetPersonsQuery();
     const [deletePerson] = useDeletePersonMutation();
+
+    const navigate = useNavigate();
 
     const handleDeletePerson = async (number) => {
         await deletePerson(number).unwrap();
@@ -27,9 +30,13 @@ export default function HomePage() {
             <div>
                 {isLoading && <div>load</div>}
                 {data && data.map(person => (
-                    <div key={person.id}>{person.firstName}
-                        <div onClick={(e) => { handleDeletePerson(person.passportNumber) }}>delete</div>
+                    <div key={person.id}>
+                        <div onClick={() => { navigate(`/person/:${person.passportNumber}`) }}>
+                            {person.firstName}
+                        </div>
+                        <div onClick={() => { handleDeletePerson(person.passportNumber) }}>delete</div>
                     </div>
+
                 ))}
 
             </div>

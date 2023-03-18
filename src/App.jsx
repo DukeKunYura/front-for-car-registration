@@ -13,10 +13,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="add-person" element={<AddPersonPage />} />
-        <Route path="person" element={<PersonPage />} />
+        <Route path="person/:passport" element={<PersonPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );
 }
-
