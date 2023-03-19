@@ -13,7 +13,7 @@ export default function AddPersonPage() {
     const navigate = useNavigate();
 
     const handleAddPerson = async () => {
-        if (newPerson) {
+        if (newPerson && newPassport) {
             await addPerson({ firstName: newPerson, passportNumber: newPassport }).unwrap();
             setNewPerson('');
             setNewPassport('');

@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const personApi = createApi({
     reducerPath: 'personApi',
-    tagTypes: ['Persons'],
+    tagTypes: ['Persons', 'Person'],
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080' }),
     endpoints: (build) => ({
         getPersons: build.query({
@@ -15,7 +15,8 @@ export const personApi = createApi({
             query: (number) => ({
                 url: `person_with_cars?passport=${number}`,
                 method: 'GET'
-            })
+            }),
+            providesTags: ['Person']
         }),
         addPerson: build.mutation({
             query: (body) => ({
@@ -33,17 +34,22 @@ export const personApi = createApi({
             invalidatesTags: [{ type: 'Persons', id: 'LIST' }]
         }),
         registrationCar: build.mutation({
-            query: (passport, body) => ({
-                url: `registration_car?passport=${passport}`,
-                method: 'POST',
-                body,
-            })
+            query(data) {
+                const { passport, ...body } = data;
+                return {
+                    url: `registration_car?passport=${passport}`,
+                    method: 'POST',
+                    body: body
+                }
+            },
+            invalidatesTags: ['Person']
         }),
         removalCar: build.mutation({
-            query: (passport, number) => ({
+            query: ({ passport, number }) => ({
                 url: `removal_car?passport=${passport}&number=${number}`,
                 method: 'DELETE'
-            })
+            }),
+            invalidatesTags: ['Person']
         })
     })
 })
