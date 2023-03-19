@@ -31,8 +31,28 @@ export const personApi = createApi({
                 method: 'DELETE'
             }),
             invalidatesTags: [{ type: 'Persons', id: 'LIST' }]
+        }),
+        registrationCar: build.mutation({
+            query: (passport, body) => ({
+                url: `registration_car?passport=${passport}`,
+                method: 'POST',
+                body,
+            })
+        }),
+        removalCar: build.mutation({
+            query: (passport, number) => ({
+                url: `removal_car?passport=${passport}&number=${number}`,
+                method: 'DELETE'
+            })
         })
     })
 })
 
-export const { useGetPersonsQuery, useGetPersonQuery, useAddPersonMutation, useDeletePersonMutation } = personApi;
+export const {
+    useGetPersonsQuery,
+    useGetPersonQuery,
+    useAddPersonMutation,
+    useDeletePersonMutation,
+    useRegistrationCarMutation,
+    useRemovalCarMutation
+} = personApi;

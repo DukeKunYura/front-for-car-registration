@@ -17,7 +17,15 @@ export default function PersonPage() {
         <>
             <div>PersonPage</div>
             <div onClick={() => { navigate("/") }}>return</div>
-            {data && data.id}
+            {data &&
+                <div>
+                    <div>{data.id && data.id}</div>
+                    <div>{data.passportNumber && data.passportNumber}</div>
+                    <div>{data.firstName && data.firstName}</div>
+                    <div>{data.surname && data.surname}</div>
+                    <div>{data.patronymic && data.patronymic}</div>
+                    <div>{data.cars && data.cars.map(car => (<div>{car.brand}</div>))}</div>
+                </div>}
         </>
 
     )
