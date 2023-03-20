@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from './pages/HomePage';
 import AddPersonPage from './pages/AddPersonPage';
 import PersonPage from './pages/PersonPage';
+import CarsPage from './pages/CarsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="add-person" element={<AddPersonPage />} />
         <Route path="person/:passport" element={<PersonPage />} />
+        <Route path="cars" element={<CarsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
