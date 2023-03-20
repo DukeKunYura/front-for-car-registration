@@ -11,6 +11,9 @@ export const personApi = createApi({
                 ? [...result.map(({ id }) => ({ type: 'Persons', id })), { type: 'Persons', id: 'LIST' },]
                 : [{ type: 'Persons', id: 'LIST' }],
         }),
+        getCars: build.query({
+            query: () => 'cars'
+        }),
         getPerson: build.query({
             query: (number) => ({
                 url: `person_with_cars?passport=${number}`,
@@ -56,6 +59,7 @@ export const personApi = createApi({
 
 export const {
     useGetPersonsQuery,
+    useGetCarsQuery,
     useGetPersonQuery,
     useAddPersonMutation,
     useDeletePersonMutation,
