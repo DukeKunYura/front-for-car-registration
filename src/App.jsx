@@ -7,10 +7,12 @@ import AddPersonPage from './pages/AddPersonPage';
 import PersonPage from './pages/PersonPage';
 import CarsPage from './pages/CarsPage';
 import NotFoundPage from './pages/NotFoundPage';
+import Header from './components/Header';
 
 export default function App() {
   return (
-    <div>
+    <div className="container">
+      <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="add-person" element={<AddPersonPage />} />
