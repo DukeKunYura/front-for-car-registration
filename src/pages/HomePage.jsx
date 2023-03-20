@@ -25,6 +25,9 @@ export default function HomePage() {
                     <li>
                         <Link to="/add-auto">add-auto</Link>
                     </li>
+                    <li>
+                        <Link to="/cars">Cars</Link>
+                    </li>
                 </ul>
             </nav>
             <div>
