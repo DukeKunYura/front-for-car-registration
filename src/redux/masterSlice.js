@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     search: "",
-    activeLink: "home"
+    activeLink: "home",
+    isActiveCarAdder: false
 };
 
 export const masterSlice = createSlice({
@@ -16,11 +17,15 @@ export const masterSlice = createSlice({
         setActiveLink: (state, action) => {
             state.activeLink = action.payload
         },
+        setIsActiveCarAdder: (state, action) => {
+            console.log("hey");
+            state.isActiveCarAdder = action.payload
+        }
 
     }
 })
 
 
-export const { setSearch, setActiveLink } = masterSlice.actions
+export const { setSearch, setActiveLink, setIsActiveCarAdder } = masterSlice.actions
 
 export default masterSlice.reducer

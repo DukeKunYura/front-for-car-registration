@@ -1,32 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useGetPersonQuery, useRegistrationCarMutation, useRemovalCarMutation } from '../redux/personApi';
+import CarAdder from '../components/CarAdder';
+import { useGetPersonQuery } from '../redux/personApi';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsActiveCarAdder } from '../redux/masterSlice';
+import CarInfoString from '../components/CarInfoString';
+import Loader from '../components/Loader';
 
 export default function PersonPage() {
 
     const params = useParams();
 
-    const { data = [], isLoading } = useGetPersonQuery(params.passport.substring(1));
+    const state = useSelector((state) => state.master);
 
-    const [registrationCar, { isErrorRegistration }] = useRegistrationCarMutation();
-    const [removalCar, { isErrorRemoval }] = useRemovalCarMutation();
+    const dispatch = useDispatch();
 
-    const [newCarNumber, setNewCarNumber] = useState('');
-    const [newCarBrand, setNewCarBrand] = useState('');
+    const { data = [], isLoading, isSuccess } = useGetPersonQuery(params.passport.substring(1));
 
     const navigate = useNavigate();
-
-    const handleAddCar = async (passport) => {
-        if (newCarNumber && newCarBrand) {
-            await registrationCar({ passport, "number": newCarNumber, "brand": newCarBrand }).unwrap();
-            setNewCarNumber('');
-            setNewCarBrand('');
-        }
-    }
-
-    const handleDeleteCar = async (passport, number) => {
-        await removalCar({ passport, number }).unwrap();
-    }
 
 
     return (
@@ -36,18 +27,23 @@ export default function PersonPage() {
                     Person
                 </p>
                 <div className="box">
-
-                    <h4 class="subtitle is-5">{data.surname + " " + data.firstName + " " + data.patronymic}</h4>
-                    <p>
-                        {data.passportNumber && "passport number: " + data.passportNumber}
-                    </p>
+                    {isLoading && <><Loader /></>}
+                    {isSuccess &&
+                        <>
+                            <h4 class="subtitle is-5">{data.surname + " " + data.firstName + " " + data.patronymic}</h4>
+                            <p>
+                                {"passport number: " + data.passportNumber}
+                            </p>
+                        </>
+                    }
                     <br />
                     <footer class="card-footer">
-                        <a href="#" class="card-footer-item">Add car</a>
+                        <a href="#" onClick={() => { dispatch(setIsActiveCarAdder(true)) }} class="card-footer-item">Add car</a>
                         <a href="#" class="card-footer-item">Edit person</a>
                         <a href="#" class="card-footer-item">Delete person</a>
                     </footer>
                 </div>
+                {state.isActiveCarAdder && <CarAdder passport={data.passportNumber} />}
                 <table class="table is-fullwidth">
                     <tbody>
                         <tr>
@@ -80,62 +76,21 @@ export default function PersonPage() {
                                     </div>
                                     <div className="block">
                                     </div>
-
                                 </div>
-
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <div class="columns">
-                                    <div class="column is-four-fifths">
-                                        <div class="columns">
-                                            <div class="column">
-                                                <h4 class="subtitle is-5">7687688</h4>
-                                            </div>
-                                            <div class="column">
-                                                <h4 class="subtitle is-5">bmw</h4>
-                                            </div>
-                                            <div class="column">
-                                                <h4 class="subtitle is-5">t7</h4>
-                                            </div>
-                                            <div class="column">
-                                                <h4 class="subtitle is-5">red</h4>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="column">
-                                        <a href="#" class="item">Delete car</a>
-                                    </div>
-                                    <div className="block">
-                                    </div>
-
-                                </div>
-
-                            </td>
-                        </tr>
-
+                        {data.cars && data.cars.map(car => (
+                            <CarInfoString
+                                key={car.id}
+                                passportNumber={data.passportNumber}
+                                number={car.number}
+                                brand={car.brand}
+                                model={car.model}
+                                color={car.color} />
+                        ))}
                     </tbody>
                 </table>
-
             </article>
-
-
-            <div>PersonPage</div>
-            <div onClick={() => { navigate("/") }}>return</div>
-            {data &&
-                <div>
-                    <div>{data.id && data.id}</div>
-                    <div>{data.passportNumber && data.passportNumber}</div>
-                    <div>{data.firstName && data.firstName}</div>
-                    <div>{data.surname && data.surname}</div>
-                    <div>{data.patronymic && data.patronymic}</div>
-                    <div>{data.cars && data.cars.map(car => (<div key={car.id} onClick={() => { handleDeleteCar(data.passportNumber, car.number) }}>{car.brand}</div>))}</div>
-                </div>}
-            <input type="text" value={newCarNumber} onChange={(e) => setNewCarNumber(e.target.value)}></input>
-            <input type="text" value={newCarBrand} onChange={(e) => setNewCarBrand(e.target.value)}></input>
-            <button onClick={() => { handleAddCar(data.passportNumber) }}>addCar</button>
         </>
 
     )
