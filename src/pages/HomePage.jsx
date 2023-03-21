@@ -1,12 +1,14 @@
 import React from 'react';
 import { useGetPersonsQuery, useDeletePersonMutation } from '../redux/personApi';
-import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 export default function HomePage() {
 
     const { data = [], isLoading } = useGetPersonsQuery();
     const [deletePerson] = useDeletePersonMutation();
+
+    const state = useSelector((state) => state.master);
 
     const navigate = useNavigate();
 
@@ -19,6 +21,7 @@ export default function HomePage() {
             <div className="block">
 
                 <div>HomePage</div>
+                <div>{state.activeLink}</div>
                 <div>
                     {isLoading && <div>load</div>}
                     {data && data.map(person => (
@@ -27,12 +30,13 @@ export default function HomePage() {
                             key={person.id}
                             onClick={() => { navigate(`/person/:${person.passportNumber}`) }}>
                             <div class="column is-narrow">
-                                <h4 class="subtitle is-4">{person.surname + " " + person.firstName + " " + person.patronymic}</h4>
-                                <h5 class="subtitle is-5">
+                                <h4 class="subtitle is-5">{person.surname + " " + person.firstName + " " + person.patronymic}</h4>
+                                <h5 class="subtitle is-6">
                                     {"passport number: " + person.passportNumber}
                                 </h5>
                                 <div onClick={() => { handleDeletePerson(person.passportNumber) }}>delete</div>
                             </div>
+
 
                         </div>
 
