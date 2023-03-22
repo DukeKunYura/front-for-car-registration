@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import CarAdder from '../components/CarAdder';
 import { useGetPersonQuery } from '../redux/personApi';
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,9 +17,6 @@ export default function PersonPage() {
 
     const { data = [], isLoading, isSuccess } = useGetPersonQuery(params.passport.substring(1));
 
-    const navigate = useNavigate();
-
-
     return (
         <>
             <article class="panel is-primary">
@@ -30,15 +27,40 @@ export default function PersonPage() {
                     {isLoading && <><Loader /></>}
                     {isSuccess &&
                         <>
-                            <h4 class="subtitle is-5">{data.surname + " " + data.firstName + " " + data.patronymic}</h4>
-                            <p>
-                                {"passport number: " + data.passportNumber}
-                            </p>
+                            <div class="field">
+                                <label class="label">Surname</label>
+                                <div class="control">
+                                    <input class="input is-static" type="text" value={data.surname} readonly />
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">First name</label>
+                                <div class="control">
+                                    <input class="input is-static" type="text" value={data.firstName} readonly />
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Patronymic</label>
+                                <div class="control">
+                                    <input class="input is-static" type="text" value={data.patronymic} readonly />
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Passport number</label>
+                                <div class="control">
+                                    <input class="input is-static" type="text" value={data.passportNumber} readonly />
+                                </div>
+                            </div>
                         </>
                     }
                     <br />
                     <footer class="card-footer">
-                        <a href="#" onClick={() => { dispatch(setIsActiveCarAdder(true)) }} class="card-footer-item">Add car</a>
+                        {!state.isActiveCarAdder &&
+                            <a href="#1" onClick={() => { dispatch(setIsActiveCarAdder(true)) }}
+                                class="card-footer-item">Add car</a>}
+                        {state.isActiveCarAdder &&
+                            <a href="#" onClick={() => { dispatch(setIsActiveCarAdder(false)) }}
+                                class="card-footer-item">Cancel adding</a>}
                         <a href="#" class="card-footer-item">Edit person</a>
                         <a href="#" class="card-footer-item">Delete person</a>
                     </footer>
@@ -48,7 +70,7 @@ export default function PersonPage() {
                     <tbody>
                         <tr>
                             <td>
-                                <h4 class="subtitle is-5">Cars:</h4>
+                                <h4 class="subtitle is-5" id="1">Cars:</h4>
                             </td>
                         </tr>
                         <tr>

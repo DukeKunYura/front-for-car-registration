@@ -53,7 +53,7 @@ export const personApi = createApi({
                 url: `removal_car?passport=${passport}&number=${number}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['Person']
+            invalidatesTags: ['Person', 'Cars']
         })
     })
 })

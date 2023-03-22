@@ -98,7 +98,7 @@ export default function CarAdder(props) {
                         </div>
                         <div class="field is-grouped">
                             <div class="control">
-                                <button class="button is-link" type="submit" disabled={props.isSubmitting}>Submit</button>
+                                <button class="button is-info" type="submit" disabled={props.isSubmitting}>Submit</button>
                             </div>
                             <div class="control">
                                 <button

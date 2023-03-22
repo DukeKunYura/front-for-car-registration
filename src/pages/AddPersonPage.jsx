@@ -1,45 +1,112 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setActiveLink } from '../redux/masterSlice';
 import { useAddPersonMutation } from '../redux/personApi';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 
 export default function AddPersonPage() {
 
-    const [newFirstName, setNewFirstName] = useState('');
-    const [newPassport, setNewPassport] = useState('');
-    const [newSurname, setNewSurname] = useState('');
-    const [newPatronymic, setNewPatronymic] = useState('');
-
     const [addPerson, { isError }] = useAddPersonMutation();
 
-    const handleAddPerson = async () => {
-        if (newFirstName && newPassport) {
-            await addPerson({
-                firstName: newFirstName,
-                surname: newSurname,
-                patronymic: newPatronymic,
-                passportNumber: newPassport
-            }).unwrap();
-            setNewFirstName('');
-            setNewSurname('');
-            setNewPatronymic('');
-            setNewPassport('');
-        }
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+
+    const handleAddPerson = async (values) => {
+        await addPerson(values).unwrap();
+        navigate("/");
+        dispatch(setActiveLink("home"));
     }
+
+    const formValidationSchema = Yup.object().shape({
+        passportNumber: Yup.string().required().max(10),
+        firstName: Yup.string().required(),
+        surname: Yup.string().required(),
+        patronymic: Yup.string().required(),
+    });
 
     return (
         <>
-            <div>AddPersonPage</div>
-            <label>Name</label>
-            <input type="text" value={newFirstName} onChange={(e) => setNewFirstName(e.target.value)}></input>
-            <label>Surname</label>
-            <input type="text" value={newSurname} onChange={(e) => setNewSurname(e.target.value)}></input>
-            <label>Patronymic</label>
-            <input type="text" value={newPatronymic} onChange={(e) => setNewPatronymic(e.target.value)}></input>
-            <label>Passport</label>
-            <input type="text" value={newPassport} onChange={(e) => setNewPassport(e.target.value)}></input>
-            <button className="button" onClick={handleAddPerson}>add</button>
-            <Link to="/">Home</Link>
+            <Formik
+                validationSchema={formValidationSchema}
+                initialValues={{ passportNumber: "", firstName: "", surname: "", patronymic: "" }}
+                onSubmit={(values, { setSubmitting }) => { handleAddPerson(values); setSubmitting(false); }}>
+                {(props) => (
+                    <form class="box" onSubmit={props.handleSubmit}>
+                        <div class="field">
+                            <label class="label">First name</label>
+                            <div class="control">
+                                <input
+                                    class={props.errors.firstName && props.touched.firstName ? "input is-danger" : "input"}
+                                    placeholder='Input first name'
+                                    type="text"
+                                    name="firstName"
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    value={props.values.firstName}
+                                />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Patronymic</label>
+                            <div class="control">
+                                <input
+                                    class={props.errors.patronymic && props.touched.patronymic ? "input is-danger" : "input"}
+                                    placeholder='Input patronymic'
+                                    type="text"
+                                    name="patronymic"
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    value={props.values.patronymic}
+                                />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Surname</label>
+                            <div class="control">
+                                <input
+                                    class={props.errors.surname && props.touched.surname ? "input is-danger" : "input"}
+                                    placeholder='Input surname'
+                                    type="text"
+                                    name="surname"
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    value={props.values.surname}
+                                />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Passport number</label>
+                            <div class="control">
+                                <input
+                                    class={props.errors.passportNumber && props.touched.passportNumber ? "input is-danger" : "input"}
+                                    placeholder='Input passport number'
+                                    type="text"
+                                    name="passportNumber"
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    value={props.values.passportNumber}
+                                />
+                            </div>
+                        </div>
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <button class="button is-info" type="submit" disabled={props.isSubmitting}>Submit</button>
+                            </div>
+                            <div class="control">
+                                <button
+                                    class="button is-link is-light"
+                                    onClick={() => { navigate("/"); dispatch(setActiveLink("home")) }}>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                )}
+            </Formik>
         </>
 
     )
