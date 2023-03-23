@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setActiveLink } from '../redux/masterSlice';
@@ -6,10 +6,6 @@ import { setActiveLink } from '../redux/masterSlice';
 export default function CarCard(props) {
 
     const { person, number, brand, model, color } = props;
-
-    useEffect(() => {
-        dispatch(setActiveLink("cars"))
-    }, [])
 
     const dispatch = useDispatch();
 

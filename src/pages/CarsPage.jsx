@@ -1,16 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CarCard from '../components/CarCard';
 import Loader from '../components/Loader';
 import { useGetCarsQuery } from '../redux/personApi';
+import { useDispatch } from 'react-redux';
+import { setActiveLink } from '../redux/masterSlice';
 
 export default function CarsPage() {
 
     const { data = [], isLoading } = useGetCarsQuery();
 
+    const [cars = [], setCars] = useState(data);
+    const [inputNumber, setInputNumber] = useState("");
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (inputNumber !== "") {
+            let newArr = data.filter(item =>
+                item.number.toLowerCase().includes(inputNumber.toLowerCase()))
+            setCars(newArr);
+        } else { setCars(data) }
+    }, [data, inputNumber])
+
+    useEffect(() => {
+        dispatch(setActiveLink("cars"))
+    }, [])
+
     return (
         <>
             <div class="column is-one-third">
-                <input class="input is-info" type="text" placeholder="Input car number"></input>
+                <input class="input is-info" type="text"
+                    placeholder="Input car number"
+                    value={inputNumber}
+                    onChange={e => { setInputNumber(e.target.value) }}></input>
             </div>
             {isLoading && <Loader />}
             <div className="box">
@@ -49,7 +71,7 @@ export default function CarsPage() {
                                 </div>
                             </td>
                         </tr>
-                        {data && data.map(car => (
+                        {cars.map(car => (
                             <CarCard
                                 key={car.id}
                                 person={car.person}
@@ -58,7 +80,7 @@ export default function CarsPage() {
                                 model={car.model}
                                 color={car.color} />
                         ))}
-                        {data.length === 0 && !isLoading && <CarCard number={"The list is empty"} />}
+                        {cars.length === 0 && !isLoading && <CarCard number={"The list is empty"} />}
                     </tbody>
                 </table>
 
