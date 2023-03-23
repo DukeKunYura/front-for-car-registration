@@ -1,9 +1,9 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import CarAdder from '../components/CarAdder';
-import { useGetPersonQuery } from '../redux/personApi';
+import { useGetPersonQuery, useDeletePersonMutation } from '../redux/personApi';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsActiveCarAdder } from '../redux/masterSlice';
+import { setIsActiveCarAdder, setActiveLink } from '../redux/masterSlice';
 import CarInfoString from '../components/CarInfoString';
 import Loader from '../components/Loader';
 
@@ -15,7 +15,21 @@ export default function PersonPage() {
 
     const dispatch = useDispatch();
 
+    const navigate = useNavigate();
+
     const { data = [], isLoading, isSuccess } = useGetPersonQuery(params.passport.substring(1));
+
+    const [deletePerson] = useDeletePersonMutation();
+
+    const handleDeletePerson = async (number) => {
+        await deletePerson(number).unwrap();
+        navigate("/");
+    }
+
+    useEffect(() => {
+        dispatch(setActiveLink("home"));
+        dispatch(setIsActiveCarAdder(false));
+    }, [])
 
     return (
         <>
@@ -30,25 +44,29 @@ export default function PersonPage() {
                             <div class="field">
                                 <label class="label">Surname</label>
                                 <div class="control">
-                                    <input class="input is-static" type="text" value={data.surname} readonly />
+                                    <input class="input is-static" type="text"
+                                        value={data.surname || " "} readonly />
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">First name</label>
                                 <div class="control">
-                                    <input class="input is-static" type="text" value={data.firstName} readonly />
+                                    <input class="input is-static" type="text"
+                                        value={data.firstName || " "} readonly />
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Patronymic</label>
                                 <div class="control">
-                                    <input class="input is-static" type="text" value={data.patronymic} readonly />
+                                    <input class="input is-static" type="text"
+                                        value={data.patronymic || " "} readonly />
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Passport number</label>
                                 <div class="control">
-                                    <input class="input is-static" type="text" value={data.passportNumber} readonly />
+                                    <input class="input is-static" type="text"
+                                        value={data.passportNumber || " "} readonly />
                                 </div>
                             </div>
                         </>
@@ -62,7 +80,8 @@ export default function PersonPage() {
                             <a href="#" onClick={() => { dispatch(setIsActiveCarAdder(false)) }}
                                 class="card-footer-item">Cancel adding</a>}
                         <a href="#" class="card-footer-item">Edit person</a>
-                        <a href="#" class="card-footer-item">Delete person</a>
+                        <a href="#" class="card-footer-item"
+                            onClick={() => { handleDeletePerson(data.passportNumber) }}>Delete person</a>
                     </footer>
                 </div>
                 {state.isActiveCarAdder && <CarAdder passport={data.passportNumber} />}

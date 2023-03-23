@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useGetPersonsQuery } from '../redux/personApi';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setActiveLink } from '../redux/masterSlice';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import PersonCard from '../components/PersonCard';
@@ -9,9 +10,13 @@ export default function HomePage() {
 
     const { data = [], isLoading } = useGetPersonsQuery();
 
-    const state = useSelector((state) => state.master);
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(setActiveLink("home"))
+    }, [])
 
     return (
         <div className="container">

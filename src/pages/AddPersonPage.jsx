@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setActiveLink } from '../redux/masterSlice';
@@ -20,6 +20,10 @@ export default function AddPersonPage() {
         navigate("/");
         dispatch(setActiveLink("home"));
     }
+
+    useEffect(() => {
+        dispatch(setActiveLink("add"))
+    }, [])
 
     const formValidationSchema = Yup.object().shape({
         passportNumber: Yup.string().required().max(10),

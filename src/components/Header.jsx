@@ -1,15 +1,10 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-import { setActiveLink, setIsActiveCarAdder } from '../redux/masterSlice';
-
-
+import { useSelector } from 'react-redux';
 
 export default function Header() {
 
     const state = useSelector((state) => state.master);
-
-    const dispatch = useDispatch();
 
     return (
         <>
@@ -26,23 +21,11 @@ export default function Header() {
             </section>
             <nav className="tabs is-medium">
                 <ul>
-                    <li className={state.activeLink === "home" ? "is-active" : ""}
-                        onClick={() => {
-                            dispatch(setActiveLink("home"));
-                            dispatch(setIsActiveCarAdder(false));
-                        }}>
+                    <li className={state.activeLink === "home" ? "is-active" : ""}>
                         <NavLink to="/">Persons</NavLink></li>
-                    <li className={state.activeLink === "add" ? "is-active" : ""}
-                        onClick={() => {
-                            dispatch(setActiveLink("add"));
-                            dispatch(setIsActiveCarAdder(false));
-                        }}>
+                    <li className={state.activeLink === "add" ? "is-active" : ""}>
                         <NavLink to="/add-person">Add person</NavLink></li>
-                    <li className={state.activeLink === "cars" ? "is-active" : ""}
-                        onClick={() => {
-                            dispatch(setActiveLink("cars"));
-                            dispatch(setIsActiveCarAdder(false));
-                        }}>
+                    <li className={state.activeLink === "cars" ? "is-active" : ""}>
                         <NavLink to="/cars">Cars</NavLink></li>
                 </ul>
             </nav>
