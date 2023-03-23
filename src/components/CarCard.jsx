@@ -1,13 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setActiveLink } from '../redux/masterSlice';
 
 export default function CarCard(props) {
 
     const { person, number, brand, model, color } = props;
-
-    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -34,10 +30,7 @@ export default function CarCard(props) {
                     </div>
                     <div class="column">
                         <a href="#" class="item"
-                            onClick={() => {
-                                navigate(`/person/:${person ? person.passportNumber : ""}`);
-                                dispatch(setActiveLink("home"));
-                            }}>
+                            onClick={() => { navigate(`/person/:${person ? person.passportNumber : ""}`) }}>
                             {person ? person.passportNumber : ""}
                         </a>
                     </div>
