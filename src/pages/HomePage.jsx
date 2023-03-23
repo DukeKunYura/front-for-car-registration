@@ -48,6 +48,13 @@ export default function HomePage() {
                             <PersonCard person={person} />
                         </div>
                     ))}
+                    {data.length === 0 && !isLoading &&
+                        <div className="box">
+                            <h4 class="subtitle is-5">
+                                The list is empty
+                            </h4>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

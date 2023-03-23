@@ -58,7 +58,7 @@ export default function CarsPage() {
                                 model={car.model}
                                 color={car.color} />
                         ))}
-                        {data.length === 0 && <CarCard />}
+                        {data.length === 0 && !isLoading && <CarCard number={"The list is empty"} />}
                     </tbody>
                 </table>
 
