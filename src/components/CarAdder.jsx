@@ -20,8 +20,6 @@ export default function CarAdder(props) {
         } else {
             await registrationCar({ passport, ...values }).unwrap();
         }
-
-
     }
 
     const handleAdder = (values) => {

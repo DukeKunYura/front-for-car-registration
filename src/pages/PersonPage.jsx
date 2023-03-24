@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CarAdder from '../components/CarAdder';
 import { useGetPersonQuery, useDeletePersonMutation } from '../redux/personApi';
@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setIsActiveCarAdder, setActiveLink } from '../redux/masterSlice';
 import CarInfoString from '../components/CarInfoString';
 import Loader from '../components/Loader';
+import PersonEditor from '../components/PersonEditor';
 
 export default function PersonPage() {
 
@@ -18,6 +19,8 @@ export default function PersonPage() {
     const navigate = useNavigate();
 
     const { data = [], isLoading, isSuccess } = useGetPersonQuery(params.passport.substring(1));
+
+    const [isEditingPerson, setIsEditingPerson] = useState(false);
 
     const [deletePerson] = useDeletePersonMutation();
 
@@ -52,49 +55,59 @@ export default function PersonPage() {
                 }
                 {isSuccess &&
                     <>
-                        <div className="box">
+                        {isEditingPerson &&
+                            <PersonEditor
+                                firstName={data.firstName}
+                                surname={data.surname}
+                                patronymic={data.patronymic}
+                                passportNumber={data.passportNumber}
+                                setIsEditingPerson={setIsEditingPerson}
+                                passport={params.passport.substring(1)} />}
+                        {!isEditingPerson &&
+                            <div className="box">
 
-                            <div className="field">
-                                <label className="label">Surname</label>
-                                <div className="control">
-                                    <input className="input is-static" type="text"
-                                        value={data.surname || " "} readOnly />
+                                <div className="field">
+                                    <label className="label">Surname</label>
+                                    <div className="control">
+                                        <input className="input is-static" type="text"
+                                            value={data.surname || " "} readOnly />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">First name</label>
-                                <div className="control">
-                                    <input className="input is-static" type="text"
-                                        value={data.firstName || " "} readOnly />
+                                <div className="field">
+                                    <label className="label">First name</label>
+                                    <div className="control">
+                                        <input className="input is-static" type="text"
+                                            value={data.firstName || " "} readOnly />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Patronymic</label>
-                                <div className="control">
-                                    <input className="input is-static" type="text"
-                                        value={data.patronymic || " "} readOnly />
+                                <div className="field">
+                                    <label className="label">Patronymic</label>
+                                    <div className="control">
+                                        <input className="input is-static" type="text"
+                                            value={data.patronymic || " "} readOnly />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Passport number</label>
-                                <div className="control">
-                                    <input className="input is-static" type="text"
-                                        value={data.passportNumber || " "} readOnly />
+                                <div className="field">
+                                    <label className="label">Passport number</label>
+                                    <div className="control">
+                                        <input className="input is-static" type="text"
+                                            value={data.passportNumber || " "} readOnly />
+                                    </div>
                                 </div>
-                            </div>
-                            <br />
-                            <footer className="card-footer">
-                                {!state.isActiveCarAdder &&
-                                    <a href="#1" onClick={() => { dispatch(setIsActiveCarAdder(true)) }}
-                                        className="card-footer-item">Add car</a>}
-                                {state.isActiveCarAdder &&
-                                    <a href="#" onClick={() => { dispatch(setIsActiveCarAdder(false)) }}
-                                        className="card-footer-item">Cancel adding</a>}
-                                <a href="#" className="card-footer-item">Edit person</a>
-                                <a href="#" className="card-footer-item"
-                                    onClick={() => { handleDeletePerson(data.passportNumber) }}>Delete person</a>
-                            </footer>
-                        </div>
+                                <br />
+                                <footer className="card-footer">
+                                    {!state.isActiveCarAdder &&
+                                        <a href="#1" onClick={() => { dispatch(setIsActiveCarAdder(true)) }}
+                                            className="card-footer-item">Add car</a>}
+                                    {state.isActiveCarAdder &&
+                                        <a href="#" onClick={() => { dispatch(setIsActiveCarAdder(false)) }}
+                                            className="card-footer-item">Cancel adding</a>}
+                                    <a href="#" className="card-footer-item"
+                                        onClick={() => { setIsEditingPerson(true) }}>Edit person</a>
+                                    <a href="#" className="card-footer-item"
+                                        onClick={() => { handleDeletePerson(data.passportNumber) }}>Delete person</a>
+                                </footer>
+                            </div>}
                         {state.isActiveCarAdder && <CarAdder passport={data.passportNumber} />}
                         <table className="table is-fullwidth">
                             <tbody>
