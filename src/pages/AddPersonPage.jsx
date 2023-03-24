@@ -16,9 +16,14 @@ export default function AddPersonPage() {
     const navigate = useNavigate();
 
     const handleAddPerson = async (values) => {
-        await addPerson(values).unwrap();
-        navigate("/");
-        dispatch(setActiveLink("home"));
+        let response = await fetch(`http://localhost:8080/person?passport=${values.passportNumber}`);
+        if (response.ok) {
+            alert("Passport number is already exists")
+        } else {
+            await addPerson(values).unwrap();
+            navigate("/");
+            dispatch(setActiveLink("home"));
+        }
     }
 
     useEffect(() => {
@@ -39,12 +44,12 @@ export default function AddPersonPage() {
                 initialValues={{ passportNumber: "", firstName: "", surname: "", patronymic: "" }}
                 onSubmit={(values, { setSubmitting }) => { handleAddPerson(values); setSubmitting(false); }}>
                 {(props) => (
-                    <form class="box" onSubmit={props.handleSubmit}>
-                        <div class="field">
-                            <label class="label">First name</label>
-                            <div class="control">
+                    <form className="box" onSubmit={props.handleSubmit}>
+                        <div className="field">
+                            <label className="label">First name</label>
+                            <div className="control">
                                 <input
-                                    class={props.errors.firstName && props.touched.firstName ? "input is-danger" : "input"}
+                                    className={props.errors.firstName && props.touched.firstName ? "input is-danger" : "input"}
                                     placeholder='Input first name'
                                     type="text"
                                     name="firstName"
@@ -54,11 +59,11 @@ export default function AddPersonPage() {
                                 />
                             </div>
                         </div>
-                        <div class="field">
-                            <label class="label">Patronymic</label>
-                            <div class="control">
+                        <div className="field">
+                            <label className="label">Patronymic</label>
+                            <div className="control">
                                 <input
-                                    class={props.errors.patronymic && props.touched.patronymic ? "input is-danger" : "input"}
+                                    className={props.errors.patronymic && props.touched.patronymic ? "input is-danger" : "input"}
                                     placeholder='Input patronymic'
                                     type="text"
                                     name="patronymic"
@@ -68,11 +73,11 @@ export default function AddPersonPage() {
                                 />
                             </div>
                         </div>
-                        <div class="field">
-                            <label class="label">Surname</label>
-                            <div class="control">
+                        <div className="field">
+                            <label className="label">Surname</label>
+                            <div className="control">
                                 <input
-                                    class={props.errors.surname && props.touched.surname ? "input is-danger" : "input"}
+                                    className={props.errors.surname && props.touched.surname ? "input is-danger" : "input"}
                                     placeholder='Input surname'
                                     type="text"
                                     name="surname"
@@ -82,11 +87,11 @@ export default function AddPersonPage() {
                                 />
                             </div>
                         </div>
-                        <div class="field">
-                            <label class="label">Passport number</label>
-                            <div class="control">
+                        <div className="field">
+                            <label className="label">Passport number</label>
+                            <div className="control">
                                 <input
-                                    class={props.errors.passportNumber && props.touched.passportNumber ? "input is-danger" : "input"}
+                                    className={props.errors.passportNumber && props.touched.passportNumber ? "input is-danger" : "input"}
                                     placeholder='Input passport number'
                                     type="text"
                                     name="passportNumber"
@@ -96,13 +101,13 @@ export default function AddPersonPage() {
                                 />
                             </div>
                         </div>
-                        <div class="field is-grouped">
-                            <div class="control">
-                                <button class="button is-info" type="submit" disabled={props.isSubmitting}>Submit</button>
+                        <div className="field is-grouped">
+                            <div className="control">
+                                <button className="button is-info" type="submit" disabled={props.isSubmitting}>Submit</button>
                             </div>
-                            <div class="control">
+                            <div className="control">
                                 <button
-                                    class="button is-link is-light"
+                                    className="button is-link is-light"
                                     onClick={() => { navigate("/"); dispatch(setActiveLink("home")) }}>
                                     Cancel
                                 </button>

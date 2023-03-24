@@ -10,35 +10,32 @@ export default function CarCard(props) {
     return (
         <tr>
             <td>
-                <div class="columns">
-                    <div class="column is-four-fifths">
-                        <div class="columns">
-                            <div class="column">
-                                <h4 class="subtitle is-5">{number ? number : "-"}</h4>
+                <div className="columns">
+                    <div className="column is-four-fifths">
+                        <div className="columns">
+                            <div className="column">
+                                <h4 className="subtitle is-5">{number ? number : "-"}</h4>
                             </div>
-                            <div class="column">
-                                <h4 class="subtitle is-5">{brand ? brand : " "}</h4>
+                            <div className="column">
+                                <h4 className="subtitle is-5">{brand ? brand : " "}</h4>
                             </div>
-                            <div class="column">
-                                <h4 class="subtitle is-5">{model ? model : " "}</h4>
+                            <div className="column">
+                                <h4 className="subtitle is-5">{model ? model : " "}</h4>
                             </div>
-                            <div class="column">
-                                <h4 class="subtitle is-5">{color ? color : " "}</h4>
+                            <div className="column">
+                                <h4 className="subtitle is-5">{color ? color : " "}</h4>
                             </div>
                         </div>
-
                     </div>
-                    <div class="column">
-                        <a href="#" class="item"
+                    <div className="column">
+                        <a href="#" className="item"
                             onClick={() => { navigate(`/person/:${person ? person.passportNumber : ""}`) }}>
                             {person ? person.passportNumber : ""}
                         </a>
                     </div>
                     <div className="block">
                     </div>
-
                 </div>
-
             </td>
         </tr>
     )

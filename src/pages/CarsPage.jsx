@@ -9,7 +9,7 @@ export default function CarsPage() {
 
     const { data = [], isLoading } = useGetCarsQuery();
 
-    const [cars = [], setCars] = useState(data);
+    const [cars = [], setCars] = useState();
     const [inputNumber, setInputNumber] = useState("");
 
     const dispatch = useDispatch();
@@ -20,7 +20,11 @@ export default function CarsPage() {
                 item.number.toLowerCase().includes(inputNumber.toLowerCase()))
             setCars(newArr);
         } else { setCars(data) }
-    }, [data, inputNumber])
+    }, [inputNumber])
+
+    useEffect(() => {
+        setCars(data);
+    }, [data])
 
     useEffect(() => {
         dispatch(setActiveLink("cars"))
@@ -28,43 +32,42 @@ export default function CarsPage() {
 
     return (
         <>
-            <div class="column is-one-third">
-                <input class="input is-info" type="text"
+            <div className="column is-one-third">
+                <input className="input is-info" type="text"
                     placeholder="Input car number"
                     value={inputNumber}
                     onChange={e => { setInputNumber(e.target.value) }}></input>
             </div>
             {isLoading && <Loader />}
             <div className="box">
-                <table class="table is-fullwidth">
+                <table className="table is-fullwidth">
                     <tbody>
                         <tr>
                             <td>
-                                <h4 class="subtitle is-5" id="1">All cars:</h4>
+                                <h4 className="subtitle is-5" id="1">All cars:</h4>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <div class="columns">
-                                    <div class="column is-four-fifths">
-                                        <div class="columns">
-                                            <div class="column">
-                                                <h4 class="subtitle is-5">number</h4>
+                                <div className="columns">
+                                    <div className="column is-four-fifths">
+                                        <div className="columns">
+                                            <div className="column">
+                                                <h4 className="subtitle is-5">number</h4>
                                             </div>
-                                            <div class="column">
-                                                <h4 class="subtitle is-5">brand</h4>
+                                            <div className="column">
+                                                <h4 className="subtitle is-5">brand</h4>
                                             </div>
-                                            <div class="column">
-                                                <h4 class="subtitle is-5">model</h4>
+                                            <div className="column">
+                                                <h4 className="subtitle is-5">model</h4>
                                             </div>
-                                            <div class="column">
-                                                <h4 class="subtitle is-5">color</h4>
+                                            <div className="column">
+                                                <h4 className="subtitle is-5">color</h4>
                                             </div>
                                         </div>
-
                                     </div>
-                                    <div class="column">
-                                        <h4 class="subtitle is-5">owner</h4>
+                                    <div className="column">
+                                        <h4 className="subtitle is-5">owner</h4>
                                     </div>
                                     <div className="block">
                                     </div>
@@ -83,9 +86,7 @@ export default function CarsPage() {
                         {cars.length === 0 && !isLoading && <CarCard number={"The list is empty"} />}
                     </tbody>
                 </table>
-
             </div>
         </>
-
     )
 }

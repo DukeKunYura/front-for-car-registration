@@ -18,7 +18,6 @@ export const masterSlice = createSlice({
             state.activeLink = action.payload
         },
         setIsActiveCarAdder: (state, action) => {
-            console.log("hey");
             state.isActiveCarAdder = action.payload
         }
 

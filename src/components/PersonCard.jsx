@@ -6,7 +6,7 @@ export default function PersonCard(props) {
 
     return (
         <div>
-            <h4 class="subtitle is-5">{person.surname + " " + person.firstName + " " + person.patronymic}</h4>
+            <h4 className="subtitle is-5">{person.surname + " " + person.firstName + " " + person.patronymic}</h4>
             <p>
                 {"passport number: " + person.passportNumber}
             </p>

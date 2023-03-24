@@ -8,9 +8,9 @@ import PersonCard from '../components/PersonCard';
 
 export default function HomePage() {
 
-    const { data = [], isLoading } = useGetPersonsQuery();
+    const { data = [], isLoading, isSuccess } = useGetPersonsQuery();
 
-    const [persons = [], setPersons] = useState(data);
+    const [persons = [], setPersons] = useState();
     const [fullNameInput, setFullNameInput] = useState("");
     const [passportInput, setPassportInput] = useState("");
 
@@ -33,7 +33,11 @@ export default function HomePage() {
                 || item.patronymic.toLowerCase().includes(fullNameInput.toLowerCase()))
             setPersons(newArr);
         } else { setPersons(data) }
-    }, [data, fullNameInput])
+    }, [fullNameInput])
+
+    useEffect(() => {
+        setPersons(data);
+    }, [isSuccess])
 
     useEffect(() => {
         dispatch(setActiveLink("home"))
@@ -42,29 +46,29 @@ export default function HomePage() {
     return (
         <div className="container">
             <div className="block">
-                <div class="columns">
-                    <div class="column is-three-quarters">
+                <div className="columns">
+                    <div className="column is-three-quarters">
                         <input
-                            class="input is-info"
+                            className="input is-info"
                             type="text"
                             placeholder="Search"
                             value={fullNameInput}
                             onChange={(e) => { setFullNameInput(e.target.value) }}
                         />
                     </div>
-                    <div class="column">
-                        <div class="field has-addons">
-                            <div class="control">
+                    <div className="column">
+                        <div className="field has-addons">
+                            <div className="control">
                                 <input
-                                    class="input is-info"
+                                    className="input is-info"
                                     type="text"
                                     placeholder="Find by passport"
                                     value={passportInput}
                                     onChange={(e) => { setPassportInput(e.target.value) }} />
                             </div>
-                            <div class="control"
+                            <div className="control"
                                 onClick={handleTransition}>
-                                <a class="button is-info">
+                                <a className="button is-info">
                                     Find
                                 </a>
                             </div>
@@ -83,7 +87,7 @@ export default function HomePage() {
                     ))}
                     {persons.length === 0 && !isLoading &&
                         <div className="box">
-                            <h4 class="subtitle is-5">
+                            <h4 className="subtitle is-5">
                                 The list is empty
                             </h4>
                         </div>
