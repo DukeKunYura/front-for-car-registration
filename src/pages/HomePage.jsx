@@ -14,7 +14,6 @@ export default function HomePage() {
     const [fullNameInput, setFullNameInput] = useState("");
     const [passportInput, setPassportInput] = useState("");
 
-
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
@@ -36,8 +35,10 @@ export default function HomePage() {
     }, [fullNameInput])
 
     useEffect(() => {
-        setPersons(data);
-    }, [isSuccess])
+        if (isSuccess) {
+            setPersons(data);
+        }
+    }, [data])
 
     useEffect(() => {
         dispatch(setActiveLink("home"))

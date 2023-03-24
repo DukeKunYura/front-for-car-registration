@@ -37,6 +37,17 @@ export const personApi = createApi({
             }),
             invalidatesTags: [{ type: 'Persons', id: 'LIST' }]
         }),
+        updatePerson: build.mutation({
+            query(data) {
+                const { passport, ...body } = data;
+                return {
+                    url: `person?passport=${passport}`,
+                    method: 'PUT',
+                    body: body
+                }
+            },
+            invalidatesTags: [{ type: 'Persons', id: 'LIST' }]
+        }),
         registrationCar: build.mutation({
             query(data) {
                 const { passport, ...body } = data;
@@ -54,7 +65,18 @@ export const personApi = createApi({
                 method: 'DELETE'
             }),
             invalidatesTags: ['Person', 'Cars']
-        })
+        }),
+        updateCar: build.mutation({
+            query(data) {
+                const { number, ...body } = data;
+                return {
+                    url: `car?number=${number}`,
+                    method: 'PUT',
+                    body: body
+                }
+            },
+            invalidatesTags: ['Person', 'Cars']
+        }),
     })
 })
 
@@ -65,5 +87,7 @@ export const {
     useAddPersonMutation,
     useDeletePersonMutation,
     useRegistrationCarMutation,
-    useRemovalCarMutation
+    useRemovalCarMutation,
+    useUpdatePersonMutation,
+    useUpdateCarMutation
 } = personApi;
