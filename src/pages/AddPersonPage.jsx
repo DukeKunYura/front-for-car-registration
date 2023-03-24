@@ -108,6 +108,7 @@ export default function AddPersonPage() {
                             <div className="control">
                                 <button
                                     className="button is-link is-light"
+                                    type="button"
                                     onClick={() => { navigate("/"); dispatch(setActiveLink("home")) }}>
                                     Cancel
                                 </button>

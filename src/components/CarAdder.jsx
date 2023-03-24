@@ -106,6 +106,7 @@ export default function CarAdder(props) {
                             <div className="control">
                                 <button
                                     className="button is-link is-light"
+                                    type="button"
                                     onClick={() => { dispatch(setIsActiveCarAdder(false)) }}>
                                     Cancel
                                 </button>

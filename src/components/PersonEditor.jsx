@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useUpdatePersonMutation } from '../redux/personApi';
@@ -14,6 +15,8 @@ export default function PersonEditor(props) {
 
     const [updatePerson, { isError }] = useUpdatePersonMutation();
 
+    const navigate = useNavigate();
+
     const editPerson = async (passport, values) => {
         let response = await fetch(`http://localhost:8080/person?passport=${values.passportNumber}`);
         if (response.ok) {
@@ -26,6 +29,7 @@ export default function PersonEditor(props) {
         } else {
             await updatePerson({ passport, ...values }).unwrap();
             setIsEditingPerson(false);
+            navigate("/");
         }
     }
 
@@ -117,6 +121,7 @@ export default function PersonEditor(props) {
                         <div className="control">
                             <button
                                 className="button is-link is-light"
+                                type='button'
                                 onClick={() => { setIsEditingPerson(false) }}>
                                 Cancel
                             </button>

@@ -46,7 +46,7 @@ export const personApi = createApi({
                     body: body
                 }
             },
-            invalidatesTags: [{ type: 'Persons', id: 'LIST' }]
+            invalidatesTags: [{ type: 'Persons', id: 'LIST' }, 'Person']
         }),
         registrationCar: build.mutation({
             query(data) {
