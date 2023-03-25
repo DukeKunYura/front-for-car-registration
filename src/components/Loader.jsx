@@ -1,5 +1,8 @@
 import React from 'react'
 
+/**
+ * Компонент рендерит индикатор загрузки
+ */
 export default function Loader() {
     return (
         <div className="block">

@@ -1,6 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Компонент рендерит строку с информацией об авто и ссылкой на владельца
+ */
 export default function CarCard(props) {
 
     const { person, number, brand, model, color } = props;

@@ -1,5 +1,8 @@
 import React from 'react'
 
+/**
+ * Компонент рендерит карточку персоны
+ */
 export default function PersonCard(props) {
 
     const { person } = props;

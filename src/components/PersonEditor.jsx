@@ -4,6 +4,9 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useUpdatePersonMutation } from '../redux/personApi';
 
+/**
+ * Компонент отвечает за редактирование информации о персоне
+ */
 export default function PersonEditor(props) {
 
     const { passport,

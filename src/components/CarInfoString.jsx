@@ -1,6 +1,9 @@
 import React from 'react';
 import { useRemovalCarMutation } from '../redux/personApi';
 
+/**
+ * Компонент рендерит строку с информацией об авто и кнопкой удаления
+ */
 export default function CarInfoString(props) {
 
     const { passportNumber, number, brand, model, color } = props;

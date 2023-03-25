@@ -2,6 +2,9 @@ import React from 'react';
 import { NavLink } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
+/**
+ * Компонент рендерит хедер с панелью навигации
+ */
 export default function Header() {
 
     const state = useSelector((state) => state.master);

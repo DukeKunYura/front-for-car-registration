@@ -5,6 +5,9 @@ import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+/**
+ * Компонент отечает за добавление авто в список зарегистрированных на персону
+ */
 export default function CarAdder(props) {
 
     const { passport } = props;
